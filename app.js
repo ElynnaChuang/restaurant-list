@@ -12,6 +12,7 @@ const categories = [
   {'value': 5, 'name':'酒吧'},
   {'value': 6, 'name':'咖啡'}
 ]
+let searchResults = []
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv:管理環境變數
 if(process.env.NODE_ENV !== 'production'){
@@ -57,6 +58,29 @@ app.get('/', (req, res)=>{
     .then( restaurants => res.render('index', {restaurants}))
     .catch( error => console.log(`when get '/': ${error}`))
 })
+
+// -------- search -------- //
+app.get('/search', (req, res)=>{
+  const keyWord = req.query.keyword.toLowerCase().trim()
+  //若搜尋內容為空白則返回首頁
+  if(!keyWord){ return res.redirect('/')}
+
+  //搜尋內容
+  return Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      searchResults = restaurants.filter( restaurant => {
+        return restaurant.name.toLowerCase().includes(keyWord) || restaurant.category.includes(keyWord)
+      })
+      //若搜尋內容找不到則顯示找不到
+      if(searchResults.length === 0){
+        return res.render('noResult', {keyWord})
+      }
+      res.render('index', {restaurants: searchResults, keyWord})
+    })
+    .catch(error => console.log(`get'/search': ${error}`))
+})
+
 
 // -------- add new restaurant -------- //
 app.get('/restaurants/new', (req, res)=>{
