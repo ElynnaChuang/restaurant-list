@@ -30,6 +30,20 @@ db.once('open', ()=>console.log('mongodb connecting!'))
 app.engine('hbs', exphbs({
   defaultLayout :'main',
   extname: '.hbs',
+  helpers: {
+    isSelected: function(array, value, options){
+      let option = ''
+      for(let i=0 ; i < array.length ; i++) {
+        let item = options.fn(array[i]);
+        if (array[i].value === value) {
+          option += `<option value="${array[i].value}" selected>`+ item + `</option>`
+        }else {
+          option += `<option value="${array[i].value}">`+ item + `</option>`
+        }
+      }
+      return option
+    }
+  }
 }))
 app.set('view engine', 'hbs')
 
@@ -75,6 +89,38 @@ app.get('/restaurants/:id', (req, res)=>{
     res.render('show', {restaurant})
   })
   .catch( error => console.log(`when get '/restaurants/:id': ${error}`))
+})
+
+// -------- edit restaurant info -------- //
+// in the edit page
+app.get('/restaurants/:id/edit', (req, res)=>{
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then( restaurant => {
+      const selectedValue = categories.find(item => item.name === restaurant.category).value
+      res.render('edit', {restaurant, categories, value: selectedValue})
+    })
+})
+//re-render
+app.post('/restaurants/:id/edit', (req, res)=>{
+  const id = req.params.id
+  const data = req.body
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      restaurant.name = data.name
+      restaurant.name_en = data.name_en
+      restaurant.category = categories.find(category => category.value === Number(data.category)).name
+      restaurant.image = data.image
+      restaurant.location = data.location
+      restaurant.phone = data.phone
+      restaurant.google_map = data.google_map
+      restaurant.rating = data.rating
+      restaurant.description = data.description
+
+      return restaurant.save()
+    })
+    .then(()=> res.redirect('/'))
 })
 
 // -------- delete -------- //

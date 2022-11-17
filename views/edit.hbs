@@ -1,0 +1,86 @@
+{{!-- action表示結果送出後的目的地 --}}
+<div class="container mt-5 w-75">
+  <form action="/restaurants/{{restaurant._id}}/edit" method="POST" class="needs-validation mb-5" id="form">
+
+    <div class="row mb-3">
+      <div class="col mb-3">
+        <label for="image" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-image me-3"></i>餐廳照片（必填）</h5>
+        </label>
+        <input type="url" class="form-control" id="image" name="image" placeholder="圖片網址" value="{{restaurant.image}}" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-sm mb-3">
+        <label for="name" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-utensils me-3"></i>餐廳名稱（必填）</h5>
+        </label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="填入餐廳名稱" value="{{restaurant.name}}" required>
+      </div>
+      <div class="col-sm mb-3">
+        <label for="name_en" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-signature me-3"></i>餐廳英文名稱（必填）</h5>
+        </label>
+        <input type="text" class="form-control" id="name_en" name="name_en" placeholder="填入餐廳的英文名稱" value="{{restaurant.name_en}}" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-sm-4 mb-3">
+        <label for="phone" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-phone me-3"></i>電話（必填）</h5>
+        </label>
+        <input type="tel" class="form-control" id="phone" name="phone" placeholder="填入餐廳的電話" value="{{restaurant.phone}}" required>
+      </div>
+      <div class="col-sm-4 mb-3">
+        <label for="rating" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-star me-3"></i>評分星數（必填）</h5>
+        </label>
+        <input type="number" min=0 max=5 step=0.1 class="form-control" id="rating" name="rating" placeholder="最高5星" value="{{restaurant.rating}}" required>
+      </div>
+      <div class="col-sm-4 mb-3">
+        <label for="category" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-tag me-3"></i>餐廳分類</h5>
+        </label>
+        <select class="form-select" id="category" name="category" required>
+          {{#isSelected categories value}}{{name}}{{/isSelected}}
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col mb-3">
+          <label for="location" class="form-label">
+            <h5 class="form-title"><i class="fa-solid fa-store me-3"></i>地址（必填）</h5>
+          </label>
+          <input type="text" class="form-control" id="location" name="location" placeholder="填入餐廳地址" value="{{restaurant.location}}" required>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col mb-3">
+          <label for="google_map" class="form-label">
+            <h5 class="form-title"><i class="fa-solid fa-map-location-dot me-3"></i>餐廳 Google Map 網址（必填）</h5>
+          </label>
+          <input type="url" class="form-control" id="google_map" name="google_map" placeholder="填入餐廳 Google Map 的網址" value="{{restaurant.google_map}}" required>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col mb-3">
+        <label for="description" class="form-label">
+          <h5 class="form-title"><i class="fa-solid fa-circle-info me-3"></i>餐廳描述</h5>
+        </label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="填入關於餐廳的描述">{{restaurant.description}}</textarea>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="mb-3 d-flex justify-content-end">
+        <button type="submit" class="btn btn-major " id="submitButton">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
