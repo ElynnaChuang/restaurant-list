@@ -77,6 +77,15 @@ app.get('/restaurants/:id', (req, res)=>{
   .catch( error => console.log(`when get '/restaurants/:id': ${error}`))
 })
 
+// -------- delete -------- //
+app.post('/restaurants/:id/delete', (req, res)=>{
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .then( restaurant => restaurant.remove() )
+    .then( () => res.redirect('/') )
+    .catch( error => console.log(`when get '/restaurants/:id/delete': ${error}`))
+})
+
 
 app.listen(port, ()=>{
   console.log(`Running on http://localhost:${port}`)
