@@ -1,18 +1,9 @@
-const mongoose = require('mongoose')
 const restaurants = require('../../restaurant.json')
 const Restaurant = require('../restaurant')
+const db = require('../../config/mongoose')
 
-if(process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
-// 設定連線到 mongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-// 取得連線狀態
-const db = mongoose.connection
-db.on('error', () => console.log('mongoose error !'))
+// 連線成功（因為有for迴圈，與mongoose.js裡不同，所以在mongoose.js先export，在這邊再繼續寫其他動作）
 db.once('open', ()=> {
-  console.log('mongoose connected !')
   restaurants.results.forEach( item => {
     Restaurant.create({
       name: item.name,
