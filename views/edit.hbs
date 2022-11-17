@@ -1,6 +1,6 @@
 {{!-- action表示結果送出後的目的地 --}}
 <div class="container mt-5 w-75">
-  <form action="/restaurants/{{restaurant._id}}/edit" method="POST" class="needs-validation mb-5" id="form">
+  <form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST" class="needs-validation mb-5" id="form">
 
     <div class="row mb-3">
       <div class="col mb-3">

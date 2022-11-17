@@ -1,5 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const methodOverride = require('method-override')
 const mongoose = require('mongoose')// 載入 mongoose
 const app = express()
 const port = 3000
@@ -50,6 +51,7 @@ app.set('view engine', 'hbs')
 
 app.use(express.static('public')) //載入 public 的css
 app.use(express.urlencoded({extended: true}))//載入 body-parser 解析透過 POST 方法傳來的資料
+app.use(methodOverride('_method'))
 
 // -------- home page -------- //
 app.get('/', (req, res)=>{
@@ -127,7 +129,7 @@ app.get('/restaurants/:id/edit', (req, res)=>{
     })
 })
 //re-render
-app.post('/restaurants/:id/edit', (req, res)=>{
+app.put('/restaurants/:id', (req, res)=>{
   const id = req.params.id
   const data = req.body
   return Restaurant.findById(id)
@@ -148,7 +150,7 @@ app.post('/restaurants/:id/edit', (req, res)=>{
 })
 
 // -------- delete -------- //
-app.post('/restaurants/:id/delete', (req, res)=>{
+app.delete('/restaurants/:id', (req, res)=>{
   const id = req.params.id
   return Restaurant.findById(id)
     .then( restaurant => restaurant.remove() )
