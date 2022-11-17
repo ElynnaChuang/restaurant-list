@@ -1,0 +1,35 @@
+<h1 class="mb-1 restaurant-show-title">{{ restaurant.name }}</h1>
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <p class="mb-1">
+        <span class="text-secondary">
+          <i class="fas fa-solid fa-tag me-2"></i>類別：
+        </span>
+        {{ restaurant.category }}
+      </p>
+      <p class="mb-1">
+        <span class="text-secondary">
+          <i class="fas fa-solid fa-store me-2"></i>地址：
+        </span>
+        {{ restaurant.location }}
+        <a href={{ restaurant.google_map }} class="text-secondary" target="_blank">
+          <i class="fas fa-location-arrow pr-2"></i>
+        </a>
+      </p>
+      <p class="mb-3">
+        <span class="text-secondary">
+          <i class="fas fa-solid fa-phone me-2"></i>電話：
+        </span>
+        {{ restaurant.phone }}
+      </p>
+      <div class="text-secondary mb-1">
+        <i class="fa-solid fa-circle-info me-2"></i>餐廳描述
+      </div>
+      <p class="mb-5">
+        {{ restaurant.description }}
+      </p>
+      <img class="rounded mx-auto d-block mb-4 w-100" src={{ restaurant.image }} alt={{ restaurant.name }} style="max-width: 600px;">
+    </div>
+  </div>
+</div>

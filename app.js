@@ -36,6 +36,18 @@ app.get('/', (req, res)=>{
     .catch( error => console.log(`when get '/': ${error}`))
 })
 
+// -------- read more info -------- //
+app.get('/restaurants/:id', (req, res)=>{
+  const id = req.params.id
+  return Restaurant.findById(id)
+  .lean()
+  .then((restaurant)=> {
+    res.render('show', {restaurant})
+  })
+  .catch( error => console.log(`when get '/restaurants/:id': ${error}`))
+})
+
+
 app.listen(port, ()=>{
   console.log(`Running on http://localhost:${port}`)
 })
