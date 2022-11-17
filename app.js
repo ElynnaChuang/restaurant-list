@@ -4,6 +4,14 @@ const mongoose = require('mongoose')// 載入 mongoose
 const app = express()
 const port = 3000
 const Restaurant = require('./models/restaurant')
+const categories = [
+  {'value': 1, 'name':'中東料理'},
+  {'value': 2, 'name':'日本料理'},
+  {'value': 3, 'name':'義式餐廳'},
+  {'value': 4, 'name':'美式'},
+  {'value': 5, 'name':'酒吧'},
+  {'value': 6, 'name':'咖啡'}
+]
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv:管理環境變數
 if(process.env.NODE_ENV !== 'production'){
@@ -35,6 +43,28 @@ app.get('/', (req, res)=>{
     .then( restaurants => res.render('index', {restaurants}))
     .catch( error => console.log(`when get '/': ${error}`))
 })
+
+// -------- add new restaurant -------- //
+app.get('/restaurants/new', (req, res)=>{
+  res.render('new', {categories})
+})
+
+app.post('/restaurants', (req, res)=>{
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = categories.find(item => item.value === Number(req.body.category)).name
+  const image= req.body.image
+  const location= req.body.location
+  const phone= req.body.phone
+  const google_map= req.body.google_map
+  const rating= Number(req.body.rating)
+  const description= req.body.description
+
+  return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description})
+    .then(res.redirect('/'))
+    .catch(error => console.log(`when get '/restaurants':${error}`))
+})
+
 
 // -------- read more info -------- //
 app.get('/restaurants/:id', (req, res)=>{
