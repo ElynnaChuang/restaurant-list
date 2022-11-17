@@ -30,7 +30,10 @@ app.use(express.urlencoded({extended: true}))//載入 body-parser 解析透過 P
 
 // -------- home page -------- //
 app.get('/', (req, res)=>{
-  res.render('index')
+  Restaurant.find()
+    .lean()
+    .then( restaurants => res.render('index', {restaurants}))
+    .catch( error => console.log(`when get '/': ${error}`))
 })
 
 app.listen(port, ()=>{
