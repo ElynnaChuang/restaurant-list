@@ -34,7 +34,7 @@ const restaurantSchema = new Schema({
     required: true // 這是個必填欄位
   },
   description: {
-    type: String, // 資料型別是字串
+    type: String // 資料型別是字串
   },
   done: {
     type: Boolean

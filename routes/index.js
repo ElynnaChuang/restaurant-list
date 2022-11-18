@@ -5,9 +5,9 @@ const router = express.Router()
 const home = require('./modules/home')
 const restaurants = require('./modules/restaurants')
 
-//設定路徑
+// 設定路徑
 router.use('/', home)
 router.use('/restaurants', restaurants)
 
-//匯出總路由
+// 匯出總路由
 module.exports = router

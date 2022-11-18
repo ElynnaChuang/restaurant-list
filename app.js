@@ -1,38 +1,39 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
-const routes = require('./routes')//載入index.js 總路由
+const routes = require('./routes')// 載入index.js 總路由
 require('./config/mongoose')
 const app = express()
 const port = 3000
 
-//使用handlebars(extname: '.hbs'，是指定副檔名為 .hbs，有了這行以後，我們才能把預設的長檔名改寫成短檔名)
+// 使用handlebars(extname: '.hbs'，是指定副檔名為 .hbs，有了這行以後，我們才能把預設的長檔名改寫成短檔名)
 app.engine('hbs', exphbs({
-  defaultLayout :'main',
+  defaultLayout: 'main',
   extname: '.hbs',
   helpers: {
-    isSelected: function(array, value, options){
+    isSelected: function (array, value) {
       let option = ''
-      for(let i=0 ; i < array.length ; i++) {
-        let item = options.fn(array[i]);
-        if (array[i].value === value) {
-          option += `<option value="${array[i].value}" selected>`+ item + `</option>`
-        }else {
-          option += `<option value="${array[i].value}">`+ item + `</option>`
+      if(array) {
+        for (let i = 0; i < array.length ; i++) {
+          if (array[i].value === value) {
+            option += `<option value="${array[i].value}" selected>${array[i].name}</option>`
+          } else {
+            option += `<option value="${array[i].value}">${array[i].name}</option>`
+          }
         }
+        return option
       }
-      return option
     }
   }
 }))
 app.set('view engine', 'hbs')
 
-app.use(express.static('public')) //載入 public 的css
-app.use(express.urlencoded({extended: true}))//載入 body-parser 解析透過 POST 方法傳來的資料
+app.use(express.static('public')) // 載入 public 的css
+app.use(express.urlencoded({ extended: true }))// 載入 body-parser 解析透過 POST 方法傳來的資料
 app.use(methodOverride('_method'))
 
 app.use(routes)
 
-app.listen(port, ()=>{
+app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`)
 })

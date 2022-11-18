@@ -1,9 +1,14 @@
-<!-- search bar -->
-<div class="container search-bar">
-  <div class="search-bar-outer">
-    <div class="search-bar-inner">
-      <form action="/search">
-        <h4 class="mb-2">尋找餐廳：</h4>
+<div class="container">
+  <a href="/restaurants/new" class="btn btn-major add-restaurant" role="button">
+    <i class="fas fa-plus"></i>
+  </a>
+
+  <div class="row">
+
+    <div class="mb-3 col-md-8">
+      <!-- search bar -->
+      <form action="/search" class="search-bar">
+        <h5 class="mb-2">尋找餐廳：</h5>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyWord}}" aria-describedby="search-button">
           <div class="input-group-append">
@@ -14,54 +19,66 @@
         </div>
       </form>
     </div>
+
+    <!-- sort bar -->
+    <div class="mb-3 col-md-4">
+      <div class="sort-bar">
+        <h5 class="mb-2">顯示排序：</h5>
+        <form action="/sort" method="GET">
+          <select class="form-select" name="sort" id="sort" onchange="this.form.submit()">
+            {{#if sortSelected}}
+              {{#isSelected sortsArray sortBy}}{{/isSelected}}
+            {{else}}
+              <option selected disabled>依據</option>
+              {{#each sortsArray}}
+                <option value="{{this.value}}">{{this.name}}</option>
+              {{/each}}
+            {{/if}}
+          </select>
+        </form>
+      </div>
+    </div>
+
   </div>
-</div>
 
-<a href="/restaurants/new" class="btn btn-major add-restaurant" role="button">
-  <i class="fas fa-plus"></i>
-</a>
-
-<div class="container my-5">
-  <div class="row">
-    <div class="col-md-9 col-12 mx-auto">
-      <div class="row row-cols-sm-3">
-      {{!-- 重複產生 --}}
-        {{#each restaurants}}
-        <div class="col-sm">
-            <div class="card mb-4">
-              <a href="/restaurants/{{ this._id }}" class="text-secondary">
-                <img class="card-img-top" src= {{ this.image }} alt= {{ this.name }}>
-              </a>
-              <a href="/restaurants/{{ this._id }}" class="text-secondary">
-                <div class="card-body p-3">
-                  <h6 class="card-title mb-1">{{ this.name }}</h6>
-                  <div class="restaurant-category mb-1">
-                    <i class="fas fa-solid fa-tag me-1"></i> {{ this.category }}
-                  </div>
-                  <span class="badge rounded-pill rating mt-2">
-                    <i class="fas fa-star fa-xs"></i>
-                    {{ this.rating }}
-                  </span>
-                </div>
-              </a>
-              <div class="container">
-                <div class="row mb-3">
-                  <div class="col-sm-3 col-md">
-                    <a href="/restaurants/{{ this._id }}" class="btn btn-secondary me-1 mb-2" role="button">
-                      <i class="fas fa-circle-info"></i>
-                    </a>
-                    <a href="/restaurants/{{ this._id }}/edit" class="btn btn-primary me-1 mb-2" role="button">
-                      <i class="fas fa-pen"></i>
-                    </a>
-                    <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline">
-                      <button type="submit" class="btn btn-danger mb-2"><i class="fas fa-trash-can"></i></button>
-                    </form>
-                  </div>
-                </div>
+  <!-- restaurant card -->
+  <div class="my-5 row row-cols-sm-1 row-cols-md-3">
+  {{!-- 重複產生 --}}
+    {{#each restaurants}}
+    <div class="col-sm col-md-4">
+        <div class="card mb-4">
+          <a href="/restaurants/{{ this._id }}" class="text-secondary">
+            <img class="card-img-top" src= {{ this.image }} alt= {{ this.name }}>
+          </a>
+          <a href="/restaurants/{{ this._id }}" class="text-secondary">
+            <div class="card-body p-3">
+              <h6 class="card-title mb-1">{{ this.name }}</h6>
+              <div class="restaurant-category mb-1">
+                <i class="fas fa-solid fa-tag me-1"></i> {{ this.category }}
+              </div>
+              <span class="badge rounded-pill rating mt-2">
+                <i class="fas fa-star fa-xs"></i>
+                {{ this.rating }}
+              </span>
+            </div>
+          </a>
+          <div class="container">
+            <div class="row mb-3">
+              <div class="col">
+                <a href="/restaurants/{{ this._id }}" class="btn btn-secondary me-1 mb-2" role="button">
+                  <i class="fas fa-circle-info"></i>
+                </a>
+                <a href="/restaurants/{{ this._id }}/edit" class="btn btn-primary me-1 mb-2" role="button">
+                  <i class="fas fa-pen"></i>
+                </a>
+                <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline">
+                  <button type="submit" class="btn btn-danger mb-2"><i class="fas fa-trash-can"></i></button>
+                </form>
               </div>
             </div>
+          </div>
         </div>
-        {{/each}}
     </div>
+    {{/each}}
   </div>
 </div>
