@@ -16,11 +16,13 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  console.log(req.body.category)
   const { name, name_en, category, image, location, phone, google_map, rating, description} = req.body
   return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description })
     .then(res.redirect('/'))
-    .catch(error => console.log(`when get '/restaurants':${error}`))
+    .catch(err => {
+      console.log(console.log(`when get '/restaurants':${err}`))
+      res.render('errorPage',{ error: err.message })
+    })
 })
 
 // -------- read more info -------- //
@@ -29,9 +31,16 @@ router.get('/:id', (req, res) => {
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => {
+      if(!restaurant){
+        const error = '項目內容不存在'
+        return res.render('errorPage',{ error })
+      }
       res.render('show', { restaurant })
     })
-    .catch(error => console.log(`when get '/restaurants/:id': ${error}`))
+    .catch(err => {
+      console.log(console.log(`when get '/restaurants/:id': ${err}`))
+      res.render('errorPage',{ error: err.message })
+    })
 })
 
 // -------- edit restaurant info -------- //
@@ -41,16 +50,29 @@ router.get('/:id/edit', (req, res) => {
   return Restaurant.findById(id)
     .lean()
     .then(restaurant => {
+      if(!restaurant){
+        const error = '項目內容不存在'
+        return res.render('errorPage',{ error })
+      }
       const selectedValue = categories.find(item => item.value === restaurant.category).value
       res.render('edit', { restaurant, categories, selectedValue })
     })
+    .catch(err => {
+      console.log(console.log(`when get '/restaurants/:id/edit': ${err}`))
+      res.render('errorPage',{ error: err.message })
+    })
 })
+
 // re-render
 router.put('/:id', (req, res) => {
   const id = req.params.id
   const data = req.body
   return Restaurant.findById(id)
     .then(restaurant => {
+      if(!restaurant){
+        const error = '該項目不存在'
+        return res.render('errorPage',{ error })
+      }
       restaurant.name = data.name
       restaurant.name_en = data.name_en
       restaurant.category = data.category
@@ -60,7 +82,6 @@ router.put('/:id', (req, res) => {
       restaurant.google_map = data.google_map
       restaurant.rating = data.rating
       restaurant.description = data.description
-
       return restaurant.save()
     })
     .then(() => res.redirect('/'))
@@ -70,9 +91,18 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
-    .then(restaurant => restaurant.remove())
+    .then(restaurant => {
+      if(!restaurant){
+        const error = '該項目不存在'
+        return res.render('errorPage',{ error })
+      }
+      restaurant.remove()
+    })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(`when get '/restaurants/:id/delete': ${error}`))
+    .catch(err => {
+      console.log(console.log(`when get '/restaurants/:id/delete': ${err}`))
+      res.render('errorPage',{ error: err.message })
+    })
 })
 
 // 匯出路由模組

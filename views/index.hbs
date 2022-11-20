@@ -7,7 +7,7 @@
 
     <div class="mb-3 col-md-8">
       <!-- search bar -->
-      <form action="/search" class="search-bar">
+      <form action="/" class="search-bar">
         <h5 class="mb-2">尋找餐廳：</h5>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyWord}}" aria-describedby="search-button">
@@ -24,16 +24,9 @@
     <div class="mb-3 col-md-4">
       <div class="sort-bar">
         <h5 class="mb-2">顯示排序：</h5>
-        <form action="/sort" method="GET">
+        <form action="/" method="GET">
           <select class="form-select" name="sort" id="sort" onchange="this.form.submit()">
-            {{#if sortSelected}}
               {{#isSelected sortsArray sortBy}}{{/isSelected}}
-            {{else}}
-              <option selected disabled>依據</option>
-              {{#each sortsArray}}
-                <option value="{{this.value}}">{{this.name}}</option>
-              {{/each}}
-            {{/if}}
           </select>
         </form>
       </div>
