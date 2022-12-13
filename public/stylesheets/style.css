@@ -15,9 +15,18 @@ header {
   z-index: -1;
   margin: -5px;
   height: 360px;
-  background: #dddddd center center url('https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg');
+  background: #ffffff center center url('https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg');
   background-size: cover;
   filter: blur(3px);
+}
+
+.restaurant-bg {
+  height: 93.5vh;
+  padding-bottom: 100px;
+  background: #ffffff center center url('https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5720/restaurants-list-cover.jpg');
+  background-size: cover;
+  /* filter: blur(3px); */
+  opacity: 0.7;
 }
 
 .search-bar,
@@ -116,19 +125,21 @@ header {
   z-index: 1;
 }
 
-@media screen and (min-width: 992px) {
-  .container {
-    max-width: 70vw;
-  }
-  .card img{
-    height: 200px;
-  }
-}
+@media screen and (max-width: 575px) {
 
-@media screen and (max-width: 992px) {
   .card img{
-    height: 160px;
+    height: auto;
   }
+
+  .add-restaurant {
+    bottom: 80px;
+    right: 44px;
+  }
+
+  .sort-bar {
+    margin-top: 0px;
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -146,19 +157,17 @@ header {
   }
 }
 
-@media screen and (max-width: 575px) {
-
+@media screen and (max-width: 992px) {
   .card img{
-    height: auto;
+    height: 160px;
   }
+}
 
-  .add-restaurant {
-    bottom: 80px;
-    right: 44px;
+@media screen and (min-width: 992px) {
+  .container {
+    max-width: 70vw;
   }
-
-  .sort-bar {
-    margin-top: 0px;
+  .card img{
+    height: 200px;
   }
-
 }

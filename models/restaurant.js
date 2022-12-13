@@ -6,7 +6,7 @@ const restaurantSchema = new Schema({
     required: true // 這是個必填欄位
   },
   name_en: {
-    type: String, // 資料型別是字串
+    type: String // 資料型別是字串
   },
   category: {
     type: String, // 資料型別是字串

@@ -13,8 +13,8 @@ app.engine('hbs', exphbs({
   helpers: {
     isSelected: function (array, value) {
       let option = ''
-      if(array) {
-        for (let i = 0; i < array.length ; i++) {
+      if (array) {
+        for (let i = 0; i < array.length; i++) {
           if (array[i].value === value) {
             option += `<option value="${array[i].value}" selected>${array[i].name}</option>`
           } else {

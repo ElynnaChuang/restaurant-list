@@ -1,0 +1,37 @@
+<div class="restaurant-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10 col-md-8 col-lg-5 mx-auto mt-5">
+        <div class="card card-body login-card p-4 mt-5">
+          <h1 class="mx-auto mb-5 text-primary">登入</h1>
+
+          <form action="/users/login" method="post">
+            <div class="form-group mb-4">
+              <label for="email">E-mail</label>
+              <input type="email" name="email" id="email" class="form-control" placeholder="Enter your E-mail">
+            </div>
+            <div class="form-group mb-4">
+              <label for="password">密碼</label>
+              <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
+            </div>
+            <div class="d-grid mt-5">
+              <button type="submit" class="btn btn-primary btn-block">登入</button>
+            </div>
+          </form>
+
+          <div class="d-flex align-items-center mt-4">
+            <hr style="width: 35%" class="me-auto">
+            <p class="m-0">其他登入方式</p>
+            <hr style="width: 35%" class="ms-auto">
+          </div>
+          <div class="d-grid mt-3">
+            <a href="/auth/facebook" class="btn btn-secondary btn-block">Facebook登入</a>
+          </div>
+          <div class="d-flex justify-content-center mt-4">
+            沒有帳號？<a href="/users/register">註冊</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
