@@ -15,23 +15,26 @@ router.get('/', (req, res) => {
   if (sortBy) {
     sortInMongoose = sortsArray.find(item => item.value === sortBy).sort
   }
-  return Restaurant.find()
+
+  const userID = req.user._id //只顯示自己的餐廳list
+  Restaurant.find({ userID })
     .lean()
     .sort(sortInMongoose)
     .then(restaurants => {
-      const keyWord = req.query.keyword
       let searchResults = []
+      const keyWord = req.query.keyword
       // 若搜尋內容為空白 ---> 首頁
-      if (!keyWord) {
-        return res.render('index', { restaurants, keyWord, sortsArray, sortBy })
-      }
+      if (!keyWord) return res.render('index', { restaurants, keyWord, sortsArray, sortBy })
+
       searchResults = restaurants.filter(restaurant => {
         return restaurant.name.toLowerCase().includes(keyWord.trim().toLowerCase()) || restaurant.category.includes(keyWord.trim().toLowerCase())
       })
+      // 若搜尋內容找不到，則顯示找不到結果
       if (searchResults.length === 0) {
-        return res.render('noResult', { keyWord }) // 若搜尋內容找不到則顯示找不到
+        return res.render('noResult', { keyWord })
+      }else { // 有結果，顯示搜尋結果
+        res.render('index', { restaurants: searchResults, keyWord, sortsArray, sortBy })
       }
-      res.render('index', { restaurants: searchResults, keyWord, sortsArray, sortBy })// 搜尋結果頁
     })
     .catch(err => {
       console.log(console.log(`when get '/': ${err}`))

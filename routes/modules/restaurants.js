@@ -17,18 +17,20 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
-  return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description })
-    .then(res.redirect('/'))
+  const userID = req.user._id
+  Restaurant.create({ userID, name, name_en, category, image, location, phone, google_map, rating, description })
+    .then(() => res.redirect('/'))
     .catch(err => {
-      console.log(console.log(`when get '/restaurants':${err}`))
+      console.log(`when post '/restaurants':${err}`)
       res.render('errorPage', { error: err.message })
     })
 })
 
 // -------- read more info -------- //
 router.get('/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const _id = req.params.id
+  const userID = req.user._id
+  return Restaurant.findOne({ userID, _id})
     .lean()
     .then((restaurant) => {
       if (!restaurant) {
@@ -38,7 +40,7 @@ router.get('/:id', (req, res) => {
       res.render('show', { restaurant })
     })
     .catch(err => {
-      console.log(console.log(`when get '/restaurants/:id': ${err}`))
+      console.log(`when get '/restaurants/:id': ${err}`)
       res.render('errorPage', { error: err.message })
     })
 })
@@ -46,8 +48,9 @@ router.get('/:id', (req, res) => {
 // -------- edit restaurant info -------- //
 // in the edit page
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const userID = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ userID, _id})
     .lean()
     .then(restaurant => {
       if (!restaurant) {
@@ -58,39 +61,45 @@ router.get('/:id/edit', (req, res) => {
       res.render('edit', { restaurant, categories, selectedValue })
     })
     .catch(err => {
-      console.log(console.log(`when get '/restaurants/:id/edit': ${err}`))
+      console.log(`when get '/restaurants/:id/edit': ${err}`)
       res.render('errorPage', { error: err.message })
     })
 })
 
 // re-render
 router.put('/:id', (req, res) => {
-  const id = req.params.id
-  const data = req.body
-  return Restaurant.findById(id)
+  const userID = req.user._id
+  const _id = req.params.id
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+  return Restaurant.findOne({ userID, _id})
     .then(restaurant => {
       if (!restaurant) {
         const error = '該項目不存在'
         return res.render('errorPage', { error })
       }
-      restaurant.name = data.name
-      restaurant.name_en = data.name_en
-      restaurant.category = data.category
-      restaurant.image = data.image
-      restaurant.location = data.location
-      restaurant.phone = data.phone
-      restaurant.google_map = data.google_map
-      restaurant.rating = data.rating
-      restaurant.description = data.description
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.category = category
+      restaurant.image = image
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.google_map = google_map
+      restaurant.rating = rating
+      restaurant.description = description
       return restaurant.save()
     })
     .then(() => res.redirect('/'))
+    .catch(err => {
+      console.log(`when put '/restaurants/:id': ${err}`)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // -------- delete -------- //
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const userID = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ userID, _id})
     .then(restaurant => {
       if (!restaurant) {
         const error = '該項目不存在'
@@ -100,7 +109,7 @@ router.delete('/:id', (req, res) => {
     })
     .then(() => res.redirect('/'))
     .catch(err => {
-      console.log(console.log(`when get '/restaurants/:id/delete': ${err}`))
+      console.log(`when delete '/restaurants/:id' : ${err}`)
       res.render('errorPage', { error: err.message })
     })
 })
