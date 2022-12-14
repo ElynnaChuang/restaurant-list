@@ -6,11 +6,15 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const usePassport = require('./config/passport')
 require('./config/mongoose')
 
 const routes = require('./routes')// 載入index.js 總路由
-const port = 3000
+const port = process.env.PORT
 
 // 使用handlebars(extname: '.hbs'，是指定副檔名為 .hbs，有了這行以後，我們才能把預設的長檔名改寫成短檔名)
 app.engine('hbs', exphbs({
@@ -35,7 +39,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs')
 
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
