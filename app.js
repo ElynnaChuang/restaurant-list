@@ -4,13 +4,13 @@ const app = express()
 const session = require('express-session')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
-
-const routes = require('./routes')// 載入index.js 總路由
-const port = 3000
+const flash = require('connect-flash')
 
 const usePassport = require('./config/passport')
 require('./config/mongoose')
 
+const routes = require('./routes')// 載入index.js 總路由
+const port = 3000
 
 // 使用handlebars(extname: '.hbs'，是指定副檔名為 .hbs，有了這行以後，我們才能把預設的長檔名改寫成短檔名)
 app.engine('hbs', exphbs({
@@ -37,17 +37,23 @@ app.set('view engine', 'hbs')
 app.use(session({
   secret: 'ThisIsMySecret',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: true
 }))
 app.use(express.static('public')) // 載入 public 的css
 app.use(express.urlencoded({ extended: true }))// 載入 body-parser 解析透過 POST 方法傳來的資料
 app.use(methodOverride('_method'))
 
 usePassport(app)
-//新增middleware，將passport的驗證狀態放入res中，讓routes可以取用
+app.use(flash())
+
+// 新增middleware，將passport的驗證狀態放入res中，讓routes可以取用
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.isAuthenticated()//回傳值是布林
+  res.locals.isAuthenticated = req.isAuthenticated()// 回傳值是布林
   res.locals.user = req.user
+
+  //設定flash message
+  res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.success_msg = req.flash('success_msg')
   next()
 })
 app.use(routes)

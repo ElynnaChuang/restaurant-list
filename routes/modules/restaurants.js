@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const _id = req.params.id
   const userID = req.user._id
-  return Restaurant.findOne({ userID, _id})
+  return Restaurant.findOne({ userID, _id })
     .lean()
     .then((restaurant) => {
       if (!restaurant) {
@@ -50,7 +50,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   const userID = req.user._id
   const _id = req.params.id
-  return Restaurant.findOne({ userID, _id})
+  return Restaurant.findOne({ userID, _id })
     .lean()
     .then(restaurant => {
       if (!restaurant) {
@@ -71,7 +71,7 @@ router.put('/:id', (req, res) => {
   const userID = req.user._id
   const _id = req.params.id
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
-  return Restaurant.findOne({ userID, _id})
+  return Restaurant.findOne({ userID, _id })
     .then(restaurant => {
       if (!restaurant) {
         const error = '該項目不存在'
@@ -99,7 +99,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const userID = req.user._id
   const _id = req.params.id
-  return Restaurant.findOne({ userID, _id})
+  return Restaurant.findOne({ userID, _id })
     .then(restaurant => {
       if (!restaurant) {
         const error = '該項目不存在'

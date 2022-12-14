@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     sortInMongoose = sortsArray.find(item => item.value === sortBy).sort
   }
 
-  const userID = req.user._id //只顯示自己的餐廳list
+  const userID = req.user._id // 只顯示自己的餐廳list
   Restaurant.find({ userID })
     .lean()
     .sort(sortInMongoose)
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
       // 若搜尋內容找不到，則顯示找不到結果
       if (searchResults.length === 0) {
         return res.render('noResult', { keyWord })
-      }else { // 有結果，顯示搜尋結果
+      } else { // 有結果，顯示搜尋結果
         res.render('index', { restaurants: searchResults, keyWord, sortsArray, sortBy })
       }
     })

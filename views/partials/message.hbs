@@ -1,0 +1,25 @@
+{{!-- 成功 --}}
+{{#if success_msg}}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{success_msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{{/if}}
+
+{{!-- 警告 --}}
+{{#if warning_msg}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{warning_msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{{/if}}
+
+{{!-- 註冊失敗 --}}
+{{#if err_msg}}
+  {{#each err_msg}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{this.message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {{/each}}
+{{/if}}

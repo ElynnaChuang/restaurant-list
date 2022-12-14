@@ -11,7 +11,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect:'/users/login'
+  failureRedirect: '/users/login'
 }))
 
 router.get('/register', (req, res) => {
@@ -20,37 +20,41 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
+  const err_msg = []
+  if( !name || !email || !password || !confirmPassword) {
+    err_msg.push({ message: '所有欄位皆為必填' })
+  }
+  if (password !== confirmPassword) {
+    err_msg.push({ message: '密碼與確認密碼不同' })
+  }
+
   User.findOne({ email })
     .then(user => {
-      //帳號已註冊過
-      if(user) {
-        console.log('此email已被註冊過')
-        return res.render('register', { name, email })
+      if (user) {
+        err_msg.push({ message: '此email已被註冊過' })
       }
-      //密碼與確認密碼不同
-      if(password !== confirmPassword) {
-        console.log('密碼與確認密碼不同')
-        return res.render('register', { name, email })
+      if(err_msg.length) {
+        return res.render('register', { name, email,  err_msg})
       }
-
       return User.create({ name, email, password })
         .then(() => res.redirect('/'))
         .catch((err) => {
-          console.log(err);
+          console.log(err)
           res.render('errorPage')
         })
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err)
       res.render('errorPage')
     })
 })
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', function(req, res, next){
   req.logout(err => {
-    if (err) return next(err)
-  })
-  res.redirect('/users/login')
-})
+    if (err)  return next(err);
+    req.flash('success_msg', '成功登出')
+    res.redirect('/users/login')
+  });
+});
 
 module.exports = router

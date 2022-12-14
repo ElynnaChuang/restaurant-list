@@ -6,7 +6,7 @@ const home = require('./modules/home')
 const restaurants = require('./modules/restaurants')
 const users = require('./modules/users')
 
-//引入middleware
+// 引入middleware
 const { authenticator } = require('../middleware/authentication')
 
 // 設定路徑
