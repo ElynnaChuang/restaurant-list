@@ -1,11 +1,16 @@
 const express = require('express')
+const app = express()
+
 const session = require('express-session')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
+
 const routes = require('./routes')// 載入index.js 總路由
-require('./config/mongoose')
-const app = express()
 const port = 3000
+
+const usePassport = require('./config/passport')
+require('./config/mongoose')
+
 
 // 使用handlebars(extname: '.hbs'，是指定副檔名為 .hbs，有了這行以後，我們才能把預設的長檔名改寫成短檔名)
 app.engine('hbs', exphbs({
@@ -38,6 +43,7 @@ app.use(express.static('public')) // 載入 public 的css
 app.use(express.urlencoded({ extended: true }))// 載入 body-parser 解析透過 POST 方法傳來的資料
 app.use(methodOverride('_method'))
 
+usePassport(app)
 app.use(routes)
 
 app.listen(port, () => {
