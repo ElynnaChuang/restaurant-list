@@ -44,6 +44,12 @@ app.use(express.urlencoded({ extended: true }))// 載入 body-parser 解析透�
 app.use(methodOverride('_method'))
 
 usePassport(app)
+//新增middleware，將passport的驗證狀態放入res中，讓routes可以取用
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()//回傳值是布林
+  res.locals.user = req.user
+  next()
+})
 app.use(routes)
 
 app.listen(port, () => {
