@@ -15,11 +15,19 @@
 {{/if}}
 
 {{!-- 註冊失敗 --}}
-{{#if err_msg}}
-  {{#each err_msg}}
+{{#if register_err_msg}}
+  {{#each register_err_msg}}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       {{this.message}}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   {{/each}}
+{{/if}}
+
+{{!-- 登入失敗：密碼錯誤 --}}
+{{#if login_err_msg}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{login_err_msg}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 {{/if}}

@@ -14,15 +14,18 @@ module.exports = (app) => {
   app.use(passport.session())
 
   // 本地登入
-  passport.use(new LocalStrategy({ usernameField: 'email' },
-    (email, password, done) => {
+  passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passReqToCallback: true, //開啟後，req就可以做為參數回傳給callback
+    },
+    (req, email, password, done) => {
       User.findOne({ email })
         .then(user => {
-          if (!user) return done(null, false, { message: 'email尚未註冊' })
+          if (!user) return done(null, false, req.flash('warning_msg', '此email尚未註冊'), req.flash('email', `${email}`))
           return bcrypt.compare(password, user.password)
             .then(isMatch => {
               if (!isMatch) {
-                return done(null, false, { message: '密碼錯誤' })
+                return done(null, false, req.flash('login_err_msg', '密碼錯誤'), req.flash('email', `${email}`))
               }
               return done(null, user) // 成功登入
             })

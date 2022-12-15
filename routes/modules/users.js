@@ -21,21 +21,21 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
-  const err_msg = []
+  const register_err_msg = []
   if( !name || !email || !password || !confirmPassword) {
-    err_msg.push({ message: '所有欄位皆為必填' })
+    register_err_msg.push({ message: '所有欄位皆為必填' })
   }
   if (password !== confirmPassword) {
-    err_msg.push({ message: '密碼與確認密碼不同' })
+    register_err_msg.push({ message: '密碼與確認密碼不同' })
   }
 
   User.findOne({ email })
     .then(user => {
       if (user) {
-        err_msg.push({ message: '此email已被註冊過' })
+        register_err_msg.push({ message: '此email已被註冊過' })
       }
-      if(err_msg.length) {
-        return res.render('register', { name, email,  err_msg})
+      if(register_err_msg.length) {
+        return res.render('register', { name, email, register_err_msg})
       }
 
       return bcrypt.genSalt(10)

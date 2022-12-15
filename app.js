@@ -58,6 +58,9 @@ app.use((req, res, next) => {
   //設定flash message
   res.locals.warning_msg = req.flash('warning_msg')
   res.locals.success_msg = req.flash('success_msg')
+  res.locals.login_err_msg = req.flash('login_err_msg')
+  res.locals.email = req.flash('email')
+
   next()
 })
 app.use(routes)
