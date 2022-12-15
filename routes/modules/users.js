@@ -22,8 +22,8 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
   const register_err_msg = []
-  if( !name || !email || !password || !confirmPassword) {
-    register_err_msg.push({ message: '所有欄位皆為必填' })
+  if (!email || !password || !confirmPassword) {
+    register_err_msg.push({ message: '密碼與Email為必填' })
   }
   if (password !== confirmPassword) {
     register_err_msg.push({ message: '密碼與確認密碼不同' })
@@ -34,13 +34,13 @@ router.post('/register', (req, res) => {
       if (user) {
         register_err_msg.push({ message: '此email已被註冊過' })
       }
-      if(register_err_msg.length) {
-        return res.render('register', { name, email, register_err_msg})
+      if (register_err_msg.length) {
+        return res.render('register', { name, email, register_err_msg })
       }
 
       return bcrypt.genSalt(10)
         .then(salt => bcrypt.hash(password, salt))
-        .then(hash => User.create({ name, email, password:hash }))
+        .then(hash => User.create({ name, email, password: hash }))
         .then(() => res.redirect('/'))
         .catch((err) => {
           console.log(err)
@@ -53,10 +53,10 @@ router.post('/register', (req, res) => {
     })
 })
 
-router.get('/logout', function(req, res, next){
+router.get('/logout', function (req, res, next) {
   req.logout()
   req.flash('success_msg', '成功登出')
   res.redirect('/users/login')
-});
+})
 
 module.exports = router

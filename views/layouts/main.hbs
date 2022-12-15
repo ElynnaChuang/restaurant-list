@@ -19,7 +19,11 @@
         <div class="container">
           <a class="navbar-brand" href="/">
             <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-            {{user.name}}'s 餐廳清單
+            {{#if user.name}}
+              {{user.name}}'s 餐廳清單
+            {{else}}
+              Default User's 餐廳清單
+            {{/if}}
           </a>
           <a href="/users/logout" class="btn btn-outline-secondary">登出</a>
         </div>

@@ -55,7 +55,7 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()// 回傳值是布林
   res.locals.user = req.user
 
-  //設定flash message
+  // 設定flash message
   res.locals.warning_msg = req.flash('warning_msg')
   res.locals.success_msg = req.flash('success_msg')
   res.locals.login_err_msg = req.flash('login_err_msg')
