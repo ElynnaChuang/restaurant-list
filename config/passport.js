@@ -21,7 +21,9 @@ module.exports = (app) => {
           if (!user) return done(null, false, { message: 'email尚未註冊' })
           return bcrypt.compare(password, user.password)
             .then(isMatch => {
-              if (isMatch) return done(null, false, { message: '密碼錯誤' })
+              if (!isMatch) {
+                return done(null, false, { message: '密碼錯誤' })
+              }
               return done(null, user) // 成功登入
             })
         })
