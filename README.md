@@ -1,6 +1,7 @@
 # Restaurant List
-## 第一次自行運用Express框架打造的Web!!
-![image](https://github.com/ElynnaChuang/restaurant-list/blob/91a3ed11a2410dd84c906e71d5d35c8ec2f23238/public/screenshot.png)
+## 第一次自行運用Express框架打造的Web!![2023/2/6更新]
+![image](https://github.com/ElynnaChuang/restaurant-list/blob/main/public/login%20page.png)
+![image](https://github.com/ElynnaChuang/restaurant-list/blob/main/public/home%20page.png)
 
 ## 功能：
 1. 查看所有餐廳
@@ -9,16 +10,22 @@
 4. 新增餐廳
 5. 修改餐廳
 6. 刪除餐廳
-## 11/18新增功能：
 7. 排序餐廳顯示方式
+
+##新增功能：
+8. 登入、登出、註冊（可用email or FB）
 
 ## 開發工具
 - Node.js 16.17.1
 - Express 4.18.2
 - Express-Handlebars 5.3.2
+- Express-Session 1.17.1
+- passport 0.4.1
+- bcryptjs 2.4.3
+- connect-flash 0.1.1 
+- mongoose 6.0.0
 - Bootstrap 5.2.2
 - Font Awesome 6.2.1
-- mongoose 6.0.0
 
 ## 使用資料庫
 - MongoDB
@@ -28,7 +35,7 @@
 
 1. 將專案 clone 到本地
 
-2. 在本地開啟之後，，輸入：
+2. 在本地開啟之後，輸入：
    ```bash
    npm install
    ```
